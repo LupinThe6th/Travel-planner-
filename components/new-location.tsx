@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useTransition, useState} from "react";
+import { useEffect, useTransition, useState} from "react";
 import { Button } from "./ui/button";
 import { addLocation } from "@/lib/actions/add-location";
 
@@ -11,7 +11,7 @@ type Suggestion = {
 export default function NewLocationClient({tripid} : {tripid:string}) {
     const [isPending,startTransition] = useTransition();
 
-    const inputRef = useRef<HTMLInputElement>(null);
+    
 
     const [query, setQuery] = useState("");
     const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
@@ -41,7 +41,7 @@ export default function NewLocationClient({tripid} : {tripid:string}) {
         }, 300);
 
         return () => clearTimeout(delay);
-    }, [query]);
+    }, [query,isSelecting]);
 
     const selectPlace = (place: Suggestion) => {
         setIsSelecting(true);

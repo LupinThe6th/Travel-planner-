@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/cards";
 import { MapPin } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 /*import Globe, {GlobeMethods} from "react-globe.gl"*/
 import dynamic from "next/dynamic";
 
@@ -63,7 +63,7 @@ export default function GlobePage() {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 item-start">
                         <div className="lg:col-span-2 bg-white rounded-xl shadow-lg overflow-hidden">
                             <div className="p-6">
-                                <h2 className="text-2xl font-semibold mb-4">See where you've been...</h2>
+                                <h2 className="text-2xl font-semibold mb-4">See where you&apos;ve been...</h2>
 
                                 <div className="h-[600px] w-full relative">
                                     {isLoading ? (
@@ -109,7 +109,7 @@ export default function GlobePage() {
                                 <div className="bg-blue-50 p-4 rounded-lg">
                                     <p className="text-sm text-blue-800">
                                     {" "}
-                                    You've visited{" "}
+                                    You&apos;ve visited{" "}
                                     <span className="font-bold">
                                         {" "}
                                         {visitedCountries.size}
