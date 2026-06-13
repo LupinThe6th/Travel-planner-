@@ -1,4 +1,4 @@
-import { Location } from "@/app/generated/prisma/client"
+import { Location } from "@prisma/client"
 import {DndContext,closestCenter,DragEndEvent} from "@dnd-kit/core"
 import {arrayMove, SortableContext, verticalListSortingStrategy,useSortable} from "@dnd-kit/sortable"
 import { useId, useState } from "react";

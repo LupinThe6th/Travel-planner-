@@ -1,6 +1,6 @@
 "use client";
 
-import { Location } from "@/app/generated/prisma/client";
+import { Location } from "@prisma/client";
 import {
   MapContainer,
   TileLayer,
