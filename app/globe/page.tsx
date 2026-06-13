@@ -3,7 +3,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/cards";
 import { MapPin } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import Globe, {GlobeMethods} from "react-globe.gl"
+/*import Globe, {GlobeMethods} from "react-globe.gl"*/
+import dynamic from "next/dynamic";
 
 export interface TransformedLocation {
     lat: number;
@@ -12,8 +13,12 @@ export interface TransformedLocation {
     country: string;
 }
 
+const GlobeClient = dynamic(() => import("@/components/GlobeClient"), {
+  ssr: false,
+});
+
 export default function GlobePage() {
-    const globeRef = useRef<GlobeMethods | undefined>(undefined)
+    /*const globeRef = useRef<GlobeMethods | undefined>(undefined)*/
 
     const [visitedCountries, setVisitedCountries] = useState<Set<string>>(
         new Set()
@@ -42,12 +47,12 @@ export default function GlobePage() {
         fetchLocations()
     },[]);
 
-    useEffect(() => {
+   /* useEffect(() => {
         if (globeRef.current) {
             globeRef.current.controls().autoRotate =true;
             globeRef.current.controls().autoRotateSpeed =0.5;
         }
-    },[]);
+    },[]);*/
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
@@ -68,7 +73,8 @@ export default function GlobePage() {
                                             </div>
                                         </div>
                                     ) : (
-                                    <Globe 
+                                    <GlobeClient locations={locations} />
+                                    /*<Globe 
                                     ref={globeRef}
                                     globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
                                     bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
@@ -80,7 +86,7 @@ export default function GlobePage() {
                                     pointAltitude={0.1}
                                     pointsMerge={true}
                                     width={800}
-                                    height={600}/>
+                                    height={600}/>*/
                                     )}
                                 </div>
                             </div>

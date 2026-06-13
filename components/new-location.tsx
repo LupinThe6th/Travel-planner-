@@ -20,18 +20,21 @@ export default function NewLocationClient({tripid} : {tripid:string}) {
 
 
     useEffect(() => {
+        if (isSelecting) return;
+
         if (!query || query.length < 3) {
         setSuggestions([]);
         return;
         }
-
+        
+        
         const delay = setTimeout(async () => {
             const res = await fetch(
                 `https://api.locationiq.com/v1/autocomplete?key=${process.env.NEXT_PUBLIC_LOCATIONIQ_MAPS_API_KEY}&q=${encodeURIComponent(
                 query
                 )}&format=json`
             );
-
+            
             const data = await res.json();
             setSuggestions(data || []);
             setShowDropdown(true);
@@ -41,6 +44,7 @@ export default function NewLocationClient({tripid} : {tripid:string}) {
     }, [query]);
 
     const selectPlace = (place: Suggestion) => {
+        setIsSelecting(true);
         setQuery(place.display_name);
         setShowDropdown(false);
         setSuggestions([]);

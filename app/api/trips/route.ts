@@ -3,6 +3,8 @@ import { getCountryFromCoordinates } from "@/lib/actions/geocode";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
+const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
 export async function GET() {
     try {
         const session = await auth();
@@ -28,17 +30,27 @@ export async function GET() {
             }
         });
 
-        const transformedLocations = await Promise.all(locations.map(async (loc) => {
-            const geocodeResult = await getCountryFromCoordinates(loc.lat, loc.lng)
+        const transformedLocations = [];
 
-            return {
-                name: `${loc.trip.title} - ${geocodeResult.formattedAddress}`,
-                lat: loc.lat,
-                lng: loc.lng,
-                country: geocodeResult.country
-            };
-          })
+        for (const loc of locations) {
+        // safety check
+        if (!loc.lat || !loc.lng) continue;
+
+        const geocodeResult = await getCountryFromCoordinates(
+            loc.lat,
+            loc.lng
         );
+
+        transformedLocations.push({
+            name: `${loc.trip.title} - ${geocodeResult.formattedAddress}`,
+            lat: loc.lat,
+            lng: loc.lng,
+            country: geocodeResult.country,
+        });
+
+        // respect LocationIQ rate limit (2 requests/sec)
+        await sleep(600);
+        }
 
         return NextResponse.json(transformedLocations);
     } catch(err) {
