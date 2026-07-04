@@ -10,17 +10,17 @@ type Suggestion = {
 
 export default function NewLocationClient({tripid} : {tripid:string}) {
     const [isPending,startTransition] = useTransition();
-
-    
-
+    const [isAutoSelecting, setIsAutoSelecting] = useState(false);
     const [query, setQuery] = useState("");
     const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
     const [showDropdown, setShowDropdown] = useState(false);
-    const [isSelecting, setIsSelecting] = useState(false);
-
-
+    
     useEffect(() => {
-        if (isSelecting) return;
+        if (isAutoSelecting) {
+            setIsAutoSelecting(false);
+            return;
+        }
+            
 
         if (!query || query.length < 3) {
         setSuggestions([]);
@@ -41,17 +41,15 @@ export default function NewLocationClient({tripid} : {tripid:string}) {
         }, 300);
 
         return () => clearTimeout(delay);
-    }, [query,isSelecting]);
+    }, [query]);
 
     const selectPlace = (place: Suggestion) => {
-        setIsSelecting(true);
+        setIsAutoSelecting(true);
         setQuery(place.display_name);
         setShowDropdown(false);
         setSuggestions([]);
 
-        setTimeout(() => {
-            setIsSelecting(false);
-        }, 200);
+        
     };
     
     return (
@@ -67,14 +65,14 @@ export default function NewLocationClient({tripid} : {tripid:string}) {
                 }}
                 >
                     <div className="relative w-full">
-                        <label className="bloxk text-sm font-medium text-gray-700 mb-2">Address</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
                         <input 
                         name="address" 
                         type="text" 
                         required 
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        onFocus={() => {if (!isSelecting) setShowDropdown(true);}}
+                        onFocus={() => {if (suggestions.length > 0) setShowDropdown(true);}}
                         className="w-full border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"/>
 
                         {showDropdown && suggestions.length > 0 && (

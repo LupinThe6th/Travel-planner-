@@ -12,8 +12,6 @@ export async function getCountryFromCoordinates(lat:number, lng:number): Promise
     
     const data = await response.json();
 
-    
-   
 
     return {
         country: data.address?.country || "Unknown",

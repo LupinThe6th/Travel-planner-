@@ -3,7 +3,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/cards";
 import { MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
-/*import Globe, {GlobeMethods} from "react-globe.gl"*/
 import dynamic from "next/dynamic";
 
 export interface TransformedLocation {
@@ -18,14 +17,14 @@ const GlobeClient = dynamic(() => import("@/components/GlobeClient"), {
 });
 
 export default function GlobePage() {
-    /*const globeRef = useRef<GlobeMethods | undefined>(undefined)*/
-
+    
     const [visitedCountries, setVisitedCountries] = useState<Set<string>>(
         new Set()
     );
     const [isLoading,setIsLoading] = useState(true);
 
     const [locations,setLocations] = useState<TransformedLocation[]>([])
+    
     
     useEffect(() => {
         const fetchLocations = async () => {
@@ -47,13 +46,6 @@ export default function GlobePage() {
         fetchLocations()
     },[]);
 
-   /* useEffect(() => {
-        if (globeRef.current) {
-            globeRef.current.controls().autoRotate =true;
-            globeRef.current.controls().autoRotateSpeed =0.5;
-        }
-    },[]);*/
-
     return (
         <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
             <div className="container mx-auto px-4 py-12">
@@ -74,19 +66,6 @@ export default function GlobePage() {
                                         </div>
                                     ) : (
                                     <GlobeClient locations={locations} />
-                                    /*<Globe 
-                                    ref={globeRef}
-                                    globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
-                                    bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
-                                    backgroundColor="rgba(0,0,0,0)"
-                                    pointColor={() => "#FF5733"}
-                                    pointLabel="name" 
-                                    pointsData={locations}        
-                                    pointRadius={0.5}
-                                    pointAltitude={0.1}
-                                    pointsMerge={true}
-                                    width={800}
-                                    height={600}/>*/
                                     )}
                                 </div>
                             </div>
